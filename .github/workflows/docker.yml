@@ -1,0 +1,22 @@
+name: Simple Docker Build and Run (Nginx)
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Required: this is the GitHub-hosted runner
+    container:
+      image: nginx:latest   # This makes your job run inside the Nginx container
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Show Nginx version
+        run: nginx -v
+
+      - name: Build Docker image
+        run: docker build -t mynginx-app .
+
+      - name: Run Docker container
+        run: docker run --rm -p 8080:80 mynginx-app
